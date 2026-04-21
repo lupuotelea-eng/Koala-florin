@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wild Koala Quest</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #0f172a;
+      color: #e5e7eb;
+      font-family: Arial, sans-serif;
+      height: 100%;
+    }
+    #app {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+    .card {
+      max-width: 860px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 18px 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    #game-container canvas {
+      border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+      max-width: 100%;
+      height: auto !important;
+    }
+    .small { opacity: 0.85; font-size: 14px; }
+    .error {
+      color: #fecaca;
+      background: rgba(127, 29, 29, 0.45);
+      border-color: rgba(254, 202, 202, 0.25);
+    }
+    code { background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="card">
+      <h1>Wild Koala Quest</h1>
+      <p id="status">Se încarcă Phaser și jocul...</p>
+      <p class="small">Controale: <code>săgeți</code> sau <code>WASD</code>, <code>SPACE</code> pentru interacțiune.</p>
+    </div>
+    <div id="game-container"></div>
+  </div>
+
+  <script>
+    function setStatus(text) {
+      const el = document.getElementById('status');
+      if (el) el.textContent = text;
+    }
+    function showError(message) {
+      const app = document.getElementById('app');
+      app.innerHTML = `
+        <div class="card error">
+          <h2>Jocul nu s-a încărcat</h2>
+          <p>${message}</p>
+          <p class="small">Verifică dacă ai internet activ și apoi reîncarcă pagina. Pe GitHub Pages, fișierul principal trebuie să se numească <code>index.html</code>.</p>
+        </div>`;
+    }
+    window.addEventListener('error', function (e) {
+      console.error(e.error || e.message);
+    });
+    window.setStatus = setStatus;
+    window.showError = showError;
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"
+          onload="setStatus('Phaser încărcat. Pornesc jocul...')"
+          onerror="showError('Nu am putut încărca biblioteca Phaser din CDN.')"></script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
